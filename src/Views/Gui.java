@@ -1,9 +1,11 @@
 package Views;
 
+import controllers.ControllerEvents;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class Gui extends JFrame {
+public abstract class Gui extends JFrame {
     protected Container window;
     public Gui(String nameView){
         setTitle(nameView);
@@ -13,4 +15,6 @@ public class Gui extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
     }
+
+    abstract public void connectController(ControllerEvents evt) ;
 }
