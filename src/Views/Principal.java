@@ -14,6 +14,7 @@ public class Principal extends Gui{
     private JLabel title;
     private JLabel text;
 
+    private JTextField textfield;
     private JButton btnGenerated;
     private DefaultTableModel numbersTable;
     private DataTable personalityTable;
@@ -41,7 +42,9 @@ public class Principal extends Gui{
 
     private void initializeComponents(){
         title = new JLabel("Select any algorithm");
-        text = new JLabel("txt");
+        text = new JLabel("Add a seed");
+
+        textfield = new JTextField(10);
 
         btnGenerated = new JButton("Generate");
         btnGenerated.setBounds(10, 10 ,100, 200);
@@ -82,8 +85,9 @@ public class Principal extends Gui{
         GridBagConstraints grid = new GridBagConstraints();
         body.setLayout(new GridBagLayout());
 
-        body.add(text, positionElements(0,0, grid));
-        body.add(btnGenerated, positionElements(0, 1, grid));
+        body.add(text, positionElements(0, 0, grid));
+        body.add(textfield, positionElements(1,0, grid));
+        body.add(btnGenerated, positionElements(1, 1, grid));
 
     }
 
@@ -109,4 +113,6 @@ public class Principal extends Gui{
     public JComboBox<String> getReferenceJCombobox(){
         return algorithms;
     }
+
+    public JTextField getReferenceJTexField(){ return textfield; }
 }

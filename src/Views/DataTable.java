@@ -6,25 +6,30 @@ import javax.swing.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class DataTable extends Gui {
-    private JPanel body;
+
     private DefaultTableModel modelnumbers;
     private JTable table ;
-    String nombreColumnas[] = {"Nro Randoms"};
-    public DataTable(String nameView) {
+    private ArrayList<String []> data;
+    String nombreColumnas[] = {"Nro","Nro Randoms"};
+    public DataTable(String nameView, ArrayList<String []> data) {
         super(nameView);
+        this.data = data;
         modelnumbers = new DefaultTableModel(null, nombreColumnas);
 
-
+        fillTable();
         table = new JTable(modelnumbers);
-        body = new JPanel();
-        body.setLayout(new FlowLayout());
         window.add(new JScrollPane(table), BorderLayout.CENTER);
         setVisible(true);
     }
-
+    public void fillTable(){
+        for (int i = 0 ; i < data.size() ; i++){
+            modelnumbers.addRow(data.get(i));
+        }
+    }
     @Override
     public void connectController(ControllerEvents evt) {
 
