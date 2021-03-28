@@ -3,6 +3,7 @@ package controllers;
 import Views.Gui;
 import Views.Principal;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ public class ControllerSelectAlgorithm {
     }
     public void selectedAlgorithm(String itemSelected){
         System.out.println("execute algorithm.." + itemSelected);
+
     }
     public ControllerEvents getReferenceEvtController(){
         return evt;
@@ -30,7 +32,7 @@ public class ControllerSelectAlgorithm {
         int parsedInteger = Integer.parseInt(seed);
         sizeString = seed.length();
         if(seed.length() <= 3){
-            System.out.println("error of seed");
+            return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
             resSquaring = (long)Math.pow(parsedInteger, 2);
@@ -52,7 +54,7 @@ public class ControllerSelectAlgorithm {
         int parsedIntegerSecondSeed = Integer.parseInt(secondSeed);
         sizeString = firstSeed.length();
         if(firstSeed.length() <= 3){
-            System.out.println("error of seed");
+            return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
             res = parsedIntegerFirstSeed*parsedIntegerSecondSeed;
@@ -75,7 +77,7 @@ public class ControllerSelectAlgorithm {
         int parsedIntegerSecondParam = Integer.parseInt(constant);
         sizeString = firstSeed.length();
         if(firstSeed.length() <= 3){
-            System.out.println("error of seed");
+            return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
             res = parsedIntegerFirstParam*parsedIntegerSecondParam;
@@ -102,6 +104,12 @@ public class ControllerSelectAlgorithm {
         int firstOperation;
         int secondOperation;
         int numberGenerated;
+
+        //valdation params
+        if(intConstantA%2 == 0 && intConstantAditive%2 == 0){
+            return numbersGenerated;
+        }
+
         for(int i = 0; i < cant ; i++){
             firstOperation = intConstantA*intSeed;
             secondOperation = firstOperation + intConstantAditive;
@@ -150,5 +158,77 @@ public class ControllerSelectAlgorithm {
             intseed = numberGenerated;
         }
         return numbersGenerated;
+    }
+    public ArrayList<String []> algorithmCongruencialCuadratico(String seed,
+                                                                String a,
+                                                                String b,
+                                                                String c,
+                                                                String module,
+                                                                int size){
+        ArrayList<String []> numbersGenerated = new ArrayList<>();
+        int inta = Integer.parseInt(a);
+        int intb = Integer.parseInt(b);
+        int intc = Integer.parseInt(c);
+        int intmodule = Integer.parseInt(module);
+        int intSeed = Integer.parseInt(seed);
+
+        int firstOperation;
+        int numberGenerated;
+        //valdation params
+        if(inta%2 != 0 && intc %2 == 0 && (intb - inta)%4 != 1 && !isRangeM(intmodule)){
+            return numbersGenerated;
+        }
+        for (int i = 0; i < size; i++) {
+            firstOperation = inta*(int)Math.pow(intSeed, 2) + intb*intSeed + intc;
+            numberGenerated = firstOperation % intmodule;
+            numbersGenerated.add(new String []{""+i, ""+numberGenerated});
+            intSeed = numberGenerated;
+        }
+
+        return numbersGenerated;
+    }
+    public ArrayList<String []> algorithmCongruencialAditivo(String firstSeed,
+                                                             String secondSeed,
+                                                             String thridSeed,
+                                                             String fourSeed,
+                                                             String fiveSeed,
+                                                             String module,
+                                                             int size){
+        ArrayList<String []> numbersGenerated = new ArrayList<>();
+        int param1 = Integer.parseInt(firstSeed);
+        int param2 = Integer.parseInt(secondSeed);
+        int param3 = Integer.parseInt(thridSeed);
+        int param4 = Integer.parseInt(fourSeed);
+        int param5 = Integer.parseInt(fiveSeed);
+        int param6 = Integer.parseInt(module);
+
+        int numberGenerated, firstOperation;
+
+        ArrayList<Integer> seeds = new ArrayList<>();
+        seeds.add(param1);
+        seeds.add(param2);
+        seeds.add(param3);
+        seeds.add(param4);
+        seeds.add(param5);
+
+        for (int i = 0; i < size; i++) {
+
+            firstOperation = seeds.get(i) + seeds.get(seeds.size() - 1);
+            numberGenerated = firstOperation % param6;
+            seeds.add(numberGenerated);
+            numbersGenerated.add(new String []{""+i, ""+numberGenerated});
+        }
+
+        return numbersGenerated;
+    }
+   private boolean isRangeM(int param){
+        int aux;
+        for (int i = 0; i < 20; i++) {
+            aux = (int)Math.pow(2, i);
+            if(aux == param){
+                return  true;
+            }
+        }
+        return false;
     }
 }

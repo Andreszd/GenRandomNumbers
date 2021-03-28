@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,27 +44,38 @@ public class ControllerEvents implements ItemListener, ActionListener {
     }
     public void OpenGuiDepedenceTypeAlgorithm(String textSelected, String seed){
         String constantA, aditiveConstant, module;
-
+        ArrayList<String []> numbersGenerated;
         switch (textSelected){
             case "Cuadrados Medios":
-                new DataTable(textSelected, refController.algorithmCuadradosMedios(seed, 10));
+                numbersGenerated = refController.algorithmCuadradosMedios(seed, 10);
+                if (numbersGenerated.size() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "the parameters do not comply with the restrictions imposed by the algorithm");
+                }else{
+                    new DataTable(textSelected, numbersGenerated);
+                }
                 break;
             case "Productos Medios":
-                Boolean flag = true;
-                String seed2 = "";
-                while(flag){
-                    seed2 = JOptionPane.showInputDialog("Add a second seed");
-                    if(isNumber(seed2)){
-                        flag = false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "seed is not a number");
-                    }
+                String secondSeed = requestAParam("Add a second seed", "seed");
+
+                numbersGenerated = refController.algorithmProductosMedios(seed, secondSeed, 10);
+                if (numbersGenerated.size() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "the parameters do not comply with the restrictions imposed by the algorithm");
+                }else{
+                    new DataTable(textSelected, numbersGenerated);
                 }
-                new DataTable(textSelected, refController.algorithmProductosMedios(seed, seed2, 10));
                 break;
             case "Multiplicador Constante":
                 String constant = requestAParam("Add a constant A ", "constant");
-                new DataTable(textSelected, refController.algorithmMultiplicadorConstante(seed, constant, 10));
+                numbersGenerated = refController.algorithmMultiplicadorConstante(seed, constant, 10);
+                if (numbersGenerated.size() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "the parameters do not comply with the restrictions imposed by the algorithm");
+                }else {
+                    new DataTable(textSelected, numbersGenerated);
+                }
+
                 break;
             case "Congruencial Mixto":
                 constantA = requestAParam("Add a constant A ", "constant");
@@ -79,14 +91,27 @@ public class ControllerEvents implements ItemListener, ActionListener {
                         constantA, module, 10));
                 break;
             case "Congruencial Aditivo":
-
+                String twoSeed = requestAParam("Add a second seed", "seed");
+                String thirdSeed = requestAParam("Add a third seed", "seed");
+                String fourSeed = requestAParam("Add a four seed", "seed");
+                String fiveSeed = requestAParam("Add a five seed", "seed");
+                module = requestAParam("Add a module ", "module");
+                new DataTable(textSelected,
+                        refController.algorithmCongruencialAditivo(seed, twoSeed,thirdSeed, fourSeed, fiveSeed, module, 10));
                 break;
             case "Congruencial Cuadratico":
                 String a = requestAParam("Add a constant A", "constant A");
                 String b = requestAParam("Add a constant B", "constant B");
                 String c = requestAParam("Add a constant C", "constant C");
-                String g = requestAParam("Add a constant G", "constant G");
-
+                String m = requestAParam("Add a constant module", "constant module");
+                numbersGenerated = refController.algorithmCongruencialCuadratico(seed,
+                        a, b,c,m, 10);
+                if (numbersGenerated.size() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "the parameters do not comply with the restrictions imposed by the algorithm");
+                }else{
+                    new DataTable(textSelected, numbersGenerated);
+                }
                 break;
             case "Blum, Blum y Shud":
                 String p = requestAParam("Add a constant P", "constant P");
@@ -96,36 +121,7 @@ public class ControllerEvents implements ItemListener, ActionListener {
                 break;
         }
     }
-    private void verifyConstantsForAlgCC(String param, String typeParam){
-        boolean flag;
-        switch (typeParam){
-            case "a":
-                flag = true;
-                while(flag){
-                    int parseA = Integer.parseInt(param);
-                    if(parseA % 2 == 0){
-                        flag = false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "constant A is not a par");
-                    }
-                    param = JOptionPane.showInputDialog("Add a constant A");
-                }
-                break;
-            case "c":
-                flag = true;
-                while(flag){
-                    int parseC = Integer.parseInt(param);
-                    if(parseC % 2 != 0){
-                        flag = false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "constant C is not a impar");
-                    }
-                    param = JOptionPane.showInputDialog("Add a constant C");
-                }
-                break;
 
-        }
-    }
     private String requestAParam(String message, String nameParam){
         Boolean flag = true;
         String param = "";
