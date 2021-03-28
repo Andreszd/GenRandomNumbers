@@ -14,7 +14,8 @@ public class ControllerSelectAlgorithm {
     public ControllerSelectAlgorithm(Gui view){
         vprincipal = (Principal) view;
         evt = new ControllerEvents(vprincipal.getReferenceJCombobox(),
-                        this, vprincipal.getReferenceJTexField());
+                        this, vprincipal.getReferenceJTexField(),
+                vprincipal.getReferenceJTexField2() );
     }
     public void selectedAlgorithm(String itemSelected){
         System.out.println("execute algorithm.." + itemSelected);

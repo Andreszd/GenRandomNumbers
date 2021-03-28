@@ -1,5 +1,3 @@
-package com.company;
-
 import Views.Gui;
 import Views.Principal;
 import controllers.ControllerSelectAlgorithm;

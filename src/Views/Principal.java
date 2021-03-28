@@ -14,6 +14,7 @@ public class Principal extends Gui{
     private JLabel title;
     private JLabel text;
 
+    private JLabel cant;
     private JTextField textfield;
     private JTextField textfield2;
 
@@ -51,9 +52,10 @@ public class Principal extends Gui{
     private void initializeComponents(){
         title = new JLabel("Select any algorithm");
         text = new JLabel("Add a seed");
+        cant = new JLabel("number of numbers to generate");
 
-        textfield = new JTextField(10);
-        textfield2 = new JTextField(10);
+        textfield = new JTextField(5);
+        textfield2 = new JTextField(5);
 
         btnGenerated = new JButton("Generate");
         btnGenerated.setBounds(10, 10 ,100, 200);
@@ -101,7 +103,11 @@ public class Principal extends Gui{
         body.add(text, positionElements(0, 1, grid));
         body.add(textfield, positionElements(1,1, grid));
 
-        body.add(btnGenerated, positionElements(1, 2, grid));
+        body.add(cant, positionElements(0, 2, grid));
+        body.add(textfield2, positionElements(1, 2, grid));
+
+
+        body.add(btnGenerated, positionElements(1, 3, grid));
 
     }
 
@@ -112,9 +118,9 @@ public class Principal extends Gui{
     }
 
     private GridBagConstraints positionElements(int x, int y, GridBagConstraints c){
-        c.gridwidth=1;
+        //c.gridwidth=1;
         c.weightx=1;
-        c.weighty=1;
+        c.weighty=0.5;
 
         c.gridx=x;
         c.gridy=y;
@@ -129,6 +135,8 @@ public class Principal extends Gui{
     }
 
     public JTextField getReferenceJTexField(){ return textfield; }
+
+    public JTextField getReferenceJTexField2(){ return textfield2; }
 
     public void removeRowSeed(){
         body.remove(text);
