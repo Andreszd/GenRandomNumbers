@@ -1,7 +1,7 @@
 package Views;
 
 import controllers.ControllerEvents;
-import controllers.ControllerSelectAlgorithm;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +15,8 @@ public class Principal extends Gui{
     private JLabel text;
 
     private JTextField textfield;
+    private JTextField textfield2;
+
     private JButton btnGenerated;
     private DefaultTableModel numbersTable;
     private DataTable personalityTable;
@@ -36,8 +38,14 @@ public class Principal extends Gui{
     }
 
     private void initializeCombobox() {
-        algorithms.addItem("item1");
-        algorithms.addItem("item2");
+        algorithms.addItem("Cuadrados Medios");
+        algorithms.addItem("Productos Medios");
+        algorithms.addItem("Multiplicador Constante");
+        algorithms.addItem("Congruencial Mixto");
+        algorithms.addItem("Congruencial Multiplicativo");
+        algorithms.addItem("Congruencial Aditivo");
+        algorithms.addItem("Congruencial Cuadratico");
+        algorithms.addItem("Blum, Blum y Shud");
     }
 
     private void initializeComponents(){
@@ -45,6 +53,7 @@ public class Principal extends Gui{
         text = new JLabel("Add a seed");
 
         textfield = new JTextField(10);
+        textfield2 = new JTextField(10);
 
         btnGenerated = new JButton("Generate");
         btnGenerated.setBounds(10, 10 ,100, 200);
@@ -71,6 +80,7 @@ public class Principal extends Gui{
         text.setText(newText);
     }
     public void reloadComponents(){
+
         body.removeAll();
         setLayout();
         body.updateUI();//metodos necesarios para renderizar componentes
@@ -85,9 +95,13 @@ public class Principal extends Gui{
         GridBagConstraints grid = new GridBagConstraints();
         body.setLayout(new GridBagLayout());
 
-        body.add(text, positionElements(0, 0, grid));
-        body.add(textfield, positionElements(1,0, grid));
-        body.add(btnGenerated, positionElements(1, 1, grid));
+        body.add(title, positionElements(0, 0, grid));
+        body.add(algorithms, positionElements(1, 0, grid));
+
+        body.add(text, positionElements(0, 1, grid));
+        body.add(textfield, positionElements(1,1, grid));
+
+        body.add(btnGenerated, positionElements(1, 2, grid));
 
     }
 
@@ -115,4 +129,9 @@ public class Principal extends Gui{
     }
 
     public JTextField getReferenceJTexField(){ return textfield; }
+
+    public void removeRowSeed(){
+        body.remove(text);
+        body.remove(textfield);
+    }
 }
