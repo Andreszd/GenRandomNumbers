@@ -10,7 +10,7 @@ public abstract class Gui extends JFrame {
     public Gui(String nameView){
         setTitle(nameView);
         window = getContentPane();
-        setSize(400,260);
+        setSize(500,260);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

@@ -3,6 +3,7 @@ package controllers;
 import Views.Gui;
 import Views.Principal;
 
+import javax.swing.*;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -33,6 +34,7 @@ public class ControllerSelectAlgorithm {
         int parsedInteger = Integer.parseInt(seed);
         sizeString = seed.length();
         if(seed.length() <= 3){
+            JOptionPane.showMessageDialog(null, "seed shouldnt has less than 4 digits");
             return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
@@ -55,6 +57,7 @@ public class ControllerSelectAlgorithm {
         int parsedIntegerSecondSeed = Integer.parseInt(secondSeed);
         sizeString = firstSeed.length();
         if(firstSeed.length() <= 3){
+            JOptionPane.showMessageDialog(null, "seed shouldnt has less than 4 digits");
             return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
@@ -78,6 +81,7 @@ public class ControllerSelectAlgorithm {
         int parsedIntegerSecondParam = Integer.parseInt(constant);
         sizeString = firstSeed.length();
         if(firstSeed.length() <= 3){
+            JOptionPane.showMessageDialog(null, "seed shouldnt has less than 4 digits");
             return numbersGenerated;
         }
         for (int i = 0; i < cant; i++) {
@@ -101,16 +105,25 @@ public class ControllerSelectAlgorithm {
         int intConstantA = Integer.parseInt(constantA);
         int intConstantAditive = Integer.parseInt(constanteAditive);
         int intmodule = Integer.parseInt(module);
+        String size;
 
         int firstOperation;
         int secondOperation;
         int numberGenerated;
 
         //valdation params
-        if(intConstantA%2 == 0 && intConstantAditive%2 == 0){
+        if(intConstantA%2 == 0){
+            JOptionPane.showMessageDialog(null, "constant A should be even");
             return numbersGenerated;
         }
-
+        if(intConstantAditive%2 == 0){
+            JOptionPane.showMessageDialog(null, "constant A is should be even");
+            return numbersGenerated;
+        }
+        if(intmodule < intConstantAditive && intmodule < intConstantA && intmodule < intSeed){
+            JOptionPane.showMessageDialog(null, "module is less than any param ");
+            return numbersGenerated;
+        }
         for(int i = 0; i < cant ; i++){
             firstOperation = intConstantA*intSeed;
             secondOperation = firstOperation + intConstantAditive;
@@ -118,7 +131,18 @@ public class ControllerSelectAlgorithm {
             numbersGenerated.add(new String[]{""+i, numberGenerated+""});
             intSeed = numberGenerated;
         }
+        size = findPeriod(numbersGenerated);
+        JOptionPane.showMessageDialog(null, "size is "+ size);
         return numbersGenerated;
+    }
+    private String findPeriod(ArrayList<String []> numbers){
+        String integerinitial = numbers.get(0)[1];
+        for (int i = 1; i < numbers.size(); i++) {
+            if(integerinitial.equals(numbers.get(i)[1])){
+                return i+"";
+            }
+        }
+        return "not found size";
     }
     public ArrayList<String []> algorithmCongrencialMultiplicativo(String seed,
                                                           String constantA,
@@ -128,6 +152,7 @@ public class ControllerSelectAlgorithm {
         int intSeed = Integer.parseInt(seed);
         int intConstantA = Integer.parseInt(constantA);
         int intmodule = Integer.parseInt(module);
+        String size;
 
         int firstOperation;
         int numberGenerated;
@@ -137,6 +162,8 @@ public class ControllerSelectAlgorithm {
             numbersGenerated.add(new String[]{""+i, numberGenerated+""});
             intSeed = numberGenerated;
         }
+        size = findPeriod(numbersGenerated);
+        JOptionPane.showMessageDialog(null, "size is "+ size);
         return numbersGenerated;
     }
     public ArrayList<String []> algorithmBlum(String seed,

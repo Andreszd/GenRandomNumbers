@@ -83,10 +83,16 @@ public class ControllerEvents implements ItemListener, ActionListener {
                 break;
             case "Congruencial Mixto":
                 constantA = requestAParam("Add a constant A ", "constant");
-                aditiveConstant = requestAParam("Add a constant aditive ", "constant");
+                aditiveConstant = requestAParam("Add a constant aditive C ", "constant");
                 module = requestAParam("Add module ", "module");
-                new DataTable(textSelected, refController.algorithmCongrencialMixto(seed,
-                        constantA, aditiveConstant, module, cant));
+                numbersGenerated = refController.algorithmCongrencialMixto(seed, constantA,
+                        aditiveConstant, module, cant);
+                if (numbersGenerated.size() == 0){
+                    JOptionPane.showMessageDialog(null,
+                            "the parameters do not comply with the restrictions imposed by the algorithm");
+                }else{
+                    new DataTable(textSelected, numbersGenerated);
+                }
                 break;
             case "Congruencial Multiplicativo":
                 constantA = requestAParam("Add a constant A ", "constant");
